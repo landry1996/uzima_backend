@@ -1,0 +1,17 @@
+SETUP INTELLIJ IDEA:
+
+1. Ouvrir IntelliJ IDEA
+2. File > Open > Sélectionner le dossier 'backend'
+3. IntelliJ détectera automatiquement le projet Gradle
+4. Attendre l'indexation et le téléchargement des dépendances
+5. Configurer SDK Java 21:
+   - File > Project Structure > Project
+   - Project SDK: 21
+   - Language Level: 21
+6. Run > Edit Configurations > + > Spring Boot
+   - Main class: com.uzima.UzimaApplication
+   - Use classpath of module: uzima-backend.main
+7. Lancer PostgreSQL : docker-compose up -d postgres
+8. Run l'application (Shift+F10)
+
+L'API sera disponible sur http://localhost:8080

@@ -1,0 +1,29 @@
+# ==============================================================================
+# Configuration test — surcharge du profil local pour les tests BDD/intégration
+# Testcontainers injecte les vraies valeurs via @DynamicPropertySource
+# ==============================================================================
+
+spring:
+  jpa:
+    show-sql: false    # Moins de bruit dans les logs de test
+
+uzima:
+  security:
+    jwt:
+      secret: uzima-test-secret-minimum-32-characters-padded
+      expiration-seconds: 3600
+    rate-limit:
+      max-requests: 10000  # Pas de limite pendant les tests automatisés
+
+  ai:
+    openai:
+      api-key: ""          # Stubs utilisés
+
+# Socket.IO désactivé par défaut en test — pas de port fixe à allouer
+# Surcharge via @DynamicPropertySource si besoin
+
+logging:
+  level:
+    com.uzima: WARN
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN

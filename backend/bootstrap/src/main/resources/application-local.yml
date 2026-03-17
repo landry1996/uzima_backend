@@ -1,0 +1,27 @@
+# ==============================================================================
+# Profil LOCAL — Ton poste de développement
+# Commité dans git (valeurs sûres, pas de secrets réels).
+# Activer : SPRING_PROFILES_ACTIVE=local (c'est le défaut dans application.yml)
+# ==============================================================================
+
+spring:
+  jpa:
+    show-sql: true     # Voir les requêtes SQL dans la console
+
+uzima:
+  security:
+    jwt:
+      secret: uzima-local-dev-secret-minimum-32-characters-ok
+      expiration-seconds: 3600   # 1h en local — pas besoin de se reconnecter souvent
+    rate-limit:
+      max-requests: 1000         # Pas de blocage pendant les tests manuels
+
+  ai:
+    openai:
+      api-key: ""                # Vide → stubs utilisés (pas d'appels OpenAI en local)
+
+logging:
+  level:
+    com.uzima: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.security: DEBUG

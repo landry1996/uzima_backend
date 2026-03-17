@@ -1,0 +1,72 @@
+# ==============================================================================
+# Profil PROD — Serveur de production
+# Commité dans git — aucun secret ici, tout passe par variables d'environnement.
+# Activer : SPRING_PROFILES_ACTIVE=prod
+#
+# Variables à définir sur Railway / Render / VPS (une seule fois) :
+#   JWT_SECRET, DATABASE_URL, DB_USERNAME, DB_PASSWORD,
+#   MOMO_SUBSCRIPTION_KEY, MOMO_API_USER, MOMO_API_KEY, MOMO_CALLBACK_URL,
+#   STRIPE_SECRET_KEY, OPENAI_API_KEY
+# ==============================================================================
+
+spring:
+  datasource:
+    url:      ${DATABASE_URL}      # Railway le fournit automatiquement si tu ajoutes PostgreSQL
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10        # Suffisant pour une instance solo
+      minimum-idle: 2
+      max-lifetime: 1800000        # 30 min — évite les connexions inactives
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate           # Flyway gère le schéma, Hibernate valide seulement
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework   # Nécessaire derrière Railway/Render/nginx
+
+uzima:
+  security:
+    jwt:
+      secret: ${JWT_SECRET}        # Générer : openssl rand -base64 64
+      expiration-seconds: 900      # 15 min
+    rate-limit:
+      max-requests: 20
+      window-seconds: 60
+
+  payment:
+    mobile-money:
+      subscription-key: ${MOMO_SUBSCRIPTION_KEY}
+      api-user:         ${MOMO_API_USER}
+      api-key:          ${MOMO_API_KEY}
+      base-url:         https://proxy.momoapi.mtn.com
+      callback-url:     ${MOMO_CALLBACK_URL}
+      environment:      ${MOMO_ENVIRONMENT:mtncameroon}
+    stripe:
+      secret-key: ${STRIPE_SECRET_KEY}   # sk_live_... (vrais débits)
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+
+  websocket:
+    host: 0.0.0.0
+    port: ${WEBSOCKET_PORT:9092}
+    ping-interval: 25000
+    ping-timeout: 60000
+
+# Swagger désactivé en prod (sécurité)
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+
+logging:
+  level:
+    com.uzima: INFO
+    org.hibernate.SQL: WARN
+    org.springframework: WARN

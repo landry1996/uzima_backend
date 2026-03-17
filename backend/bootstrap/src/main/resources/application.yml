@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: uzima-backend
+
+  # Profil actif par défaut : local.
+  # Changer via variable d'environnement : SPRING_PROFILES_ACTIVE=prod
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+
+  # application-secret.yml chargé automatiquement sur ton poste (gitignored).
+  config:
+    import: optional:classpath:application-secret.yml
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/uzima}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+uzima:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:uzima-dev-secret-key-CHANGE-IN-PRODUCTION-32ch}
+      expiration-seconds: 900
+    rate-limit:
+      max-requests: 20
+      window-seconds: 60
+      path-prefix: /api/auth
+      waf-score-header: X-WAF-Score
+      waf-score-threshold: 50
+  notification:
+    deferred:
+      flush-interval-ms: 60000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+    disable-swagger-default-url: true
+  default-produces-media-type: application/json
+
+logging:
+  level:
+    com.uzima: INFO
+    org.hibernate.SQL: WARN
+    org.springframework: WARN

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.uzima</groupId>
+        <artifactId>uzima-backend</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>uzima-security</artifactId>
+    <name>Uzima Security - Token &amp; Auth</name>
+
+    <!--
+        Ce module est INDÉPENDANT du domaine métier.
+        Il dépend uniquement de uzima-domain pour UserId (identité de l'utilisateur).
+        Il est consommé par application (via ports) et infrastructure (via adapters JWT).
+        Il ne dépend PAS de Spring, JPA, ni d'aucun framework.
+        Le bootstrap wire les implémentations concrètes (JJWT, BCrypt).
+    -->
+    <dependencies>
+        <!-- Seule dépendance sur le domaine : pour UserId -->
+        <dependency>
+            <groupId>com.uzima</groupId>
+            <artifactId>uzima-domain</artifactId>
+        </dependency>
+
+        <!-- JWT API only (implementation wired in bootstrap) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
