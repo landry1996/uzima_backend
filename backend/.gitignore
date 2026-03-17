@@ -33,6 +33,8 @@ logs/
 # ==============================================================================
 analyse-fonctionnelle_uzima
 analyse-fonctionnelle_uzima.*
+ANALYSE_FONCTIONNELLE_UZIMA.md
+CODE_EVIDENCE_DETAILS.md
 code_evident_details
 code_evident_details.*
 todo
