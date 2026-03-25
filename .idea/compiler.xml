@@ -11,7 +11,7 @@
         <module name="uzima-security" />
         <module name="uzima-domain" />
       </profile>
-      <profile name="Annotation profile for Uzima Infrastructure - Adapters (JPA, JWT, BCrypt, WebSocket)" enabled="true">
+      <profile name="Annotation profile for Uzima Backend - Parent" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

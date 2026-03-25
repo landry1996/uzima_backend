@@ -14,6 +14,7 @@
         <option value="$PROJECT_DIR$/backend/infrastructure/pom.xml" />
         <option value="$PROJECT_DIR$/backend/security/pom.xml" />
         <option value="$PROJECT_DIR$/backend/bootstrap/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/pom.xml" />
       </list>
     </option>
   </component>
